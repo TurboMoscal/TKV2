@@ -21,10 +21,10 @@ async function getDecksInfo() {
         GameInfo.matchDecks = result.decks;
         if (GameInfo.playerDeck) GameInfo.playerDeck.update(GameInfo.matchDecks.mycards); 
         else GameInfo.playerDeck = new Deck("Your cards",
-            GameInfo.matchDecks.mycards,605,570,playCard,GameInfo.images.card);////////////////////////////////////
+            GameInfo.matchDecks.mycards,605,490,playCard,GameInfo.images.card);////////////////////////////////////
         if (GameInfo.oppDeck) GameInfo.oppDeck.update(GameInfo.matchDecks.oppcards); 
         else GameInfo.oppDeck = new Deck("Opponent cards",
-            GameInfo.matchDecks.oppcards,GameInfo.width-660-Deck.nCards*Card.width,5,null,GameInfo.images.card);
+            GameInfo.matchDecks.oppcards,GameInfo.width-630-Deck.nCards*Card.width,5,null,GameInfo.images.card);
     }
 }
 

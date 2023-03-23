@@ -42,7 +42,7 @@ class Card {
 
 
 class Deck {
-    static titleHeight=10;
+    static titleHeight = 85;
     static nCards = 3;
 
     constructor(title,cardsInfo,x,y,clickAction,cardImg) {
