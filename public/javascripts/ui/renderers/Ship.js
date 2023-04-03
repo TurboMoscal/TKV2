@@ -26,7 +26,7 @@ class Obj {
         }
     }
     update(obj) {
-        this.p = obj;
+        this.obj = obj;
     }
     draw() {
         // the text box
@@ -40,7 +40,7 @@ class Obj {
         text(this.title,this.textOffset+this.x,this.y,Obj.textWidth,1*Obj.textHeight/4);
         text(this.obj.state,this.textOffset+this.x,this.y+Obj.textHeight/4,Obj.textWidth,Obj.textHeight/4);
         text("HP: "+this.obj.hp,this.textOffset+this.x,this.y+2*Obj.textHeight/4,Obj.textWidth,Obj.textHeight/4);
-        text("Class:"+this.obj.ap,this.textOffset+this.x,this.y+3*Obj.textHeight/4,Obj.textWidth,Obj.textHeight/4);        
+        text("AP:"+this.obj.ap,this.textOffset+this.x,this.y+3*Obj.textHeight/4,Obj.textWidth,Obj.textHeight/4);        
         // the image
        /* let ellapsed = millis() - this.time;
         if (ellapsed > Obj.swaptime) {

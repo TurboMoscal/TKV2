@@ -57,6 +57,7 @@ async function playCard(card) {
             await getGameInfo();
             await getDecksInfo();
             await getObjsInfo();
+            await endturnAction()
         }
         alert(result.msg);
     }

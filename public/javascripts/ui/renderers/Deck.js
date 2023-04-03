@@ -53,6 +53,7 @@ class Deck {
         this.clickAction = clickAction;
         this.cardImg = cardImg;
         this.cards = this.createCards(cardsInfo);
+        this.active;
     }
     
     createCards(cardsInfo) {
@@ -83,7 +84,7 @@ class Deck {
     }
 
     click() {
-        if (this.clickAction) {
+        if (this.clickAction && GameInfo.playerDeck.active == true) {
             for (let card of this.cards) {
                 if (card.click()) {
                     this.clickAction(card.card);

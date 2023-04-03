@@ -4,7 +4,7 @@ async function refresh() {
         // Every time we are waiting
         await getGameInfo();   
         await getDecksInfo();  
-        await getObjsInfo();  
+        await getObjsInfo();
         if (GameInfo.game.player.state != "Waiting") {
             // The moment we pass from waiting to play
             GameInfo.prepareUI();
