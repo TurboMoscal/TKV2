@@ -19,15 +19,17 @@ insert into ship_state (shs_state) values ('Defensive');
 
 insert into card_type (ct_name) values ('Attack'),('Heal'),('Defense');
 
-
 insert into card (crd_cost,crd_name, crd_effect,crd_note,crd_type_id) values 
-   (2,"Full Salvo","Does 3 damage",null,1),
-   (1,"Aimed Shot","Does 1 damage","If HP is lower than 10 does 2 damage instead.",1),
-   (2,"Barrage","Does 2 damage","Does damage even to ships with defensive maneuvers",1),
-   (1,"Weak Spot Attack","Does 1 damage","Add 1 damage more for each attack made this turn",1),
-   (2,"Repair","Recovers 2 HP of your ship",null,2),
-   (3,"Last Hope","Recover 4 HP or up 10 HP, whatever is greater","Deplets all action points. Must be played as the only card of the turn.",2),
-   (2,"Defensive Maneuvers","All normal attacks fail until your next turn","Must be played as the only card of the turn.",3);
+   (2,"Sword Slice","Does 2 damage","Swing your sword and slay your enemies!",1),
+   (1,"Mace Swing","Does 2 damage","Crush your foes with all your might!",1),
+   (2,"Rapier Dash","Does 1 damage","Thrust into your opponent with incredible speed!",1),
+   (2,"Craguemart Slash","Does 2 damage","Sprint into your adversary!",1),
+   (2,"Stiletto Jab","Does 1 damage","Quickly jab into your challenger!",1),
+   (2,"A true Hospitaller!","Does 3 damage and recovers 3 HP","Show to everyone your true potential!" ,1),
+   (2,"Field Doctor","Recovers 3 HP","Call in a doctor to aid your wounds",2),
+   (3,"Morphine","Recover 3 HP","Apply this powerfull medicine to relief your pain",2),
+   (3,"Pills","Recover 2 HP","Ingest this pills and forget about your previous encounter",2);
+
 
 INSERT INTO user VALUES (1,'me','$2b$10$Wemfac2wY/7RSCdKxuYUL.GV2clfhXC66OL76uCpDFUmpYZ/bGZtW','48MnTVJ6sKIvanVHbP5Vx5rysbYrVN4EbYmk4D8xESdfm1hx8jDfNFZGNw9OZs'),(2,'me2','$2b$10$6j2xIDnnxv.TLfBSstbbO.qE7wFTf5envx/uijiFjCP3slsy7EE4K','dQ7NrsbPsuF81xFGNioR1K0tiYkjtxOhemcgMhuFIS68VrFUC9gggm3JCgzkqe');
 INSERT INTO game VALUES (1,1,2);

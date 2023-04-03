@@ -3,6 +3,7 @@ const MatchDecks = require("./decksModel");
 const Settings = require("./gameSettings");
 
 
+
 class Play {
 
     // At this moment I do not need to store information so we have no constructor
@@ -10,6 +11,7 @@ class Play {
     // we consider all verifications were made
     static async startGame(game) {
         try {
+            
             // Randomly determines who starts    
             let myTurn = (Math.random() < 0.5);
             let p1Id = myTurn ? game.player.id : game.opponents[0].id;
@@ -21,12 +23,14 @@ class Play {
 
             // ---- Specific to this game
             // Player that starts gets new cards
-            await MatchDecks.genPlayerDeck(p1Id);
-
+            await MatchDecks.genPlayerDeck(p1Id,Settings.inCards);
+            await MatchDecks.genPlayerDeck(p2Id,Settings.inCards);
+        
             // generating ships for both players first player gets 3 action points
-            let objSql = `Insert into ship (sh_user_game_id,sh_state_id,sh_hp,sh_ap) 
-                    values (?,?,?,?)`
-            await pool.query(objSql, [p1Id, 1, Settings.maxShipHP, Settings.apPerTurn]);
+            let objSql = `Insert into ship (sh_user_game_id,sh_state_id,sh_hp,sh_ap) values (?,?,?,?)`
+
+            await pool.query(objSql, [p1Id, 1, Settings.maxShipHP ,Settings.apPerTurn]);
+         
             await pool.query(objSql, [p2Id, 1, Settings.maxShipHP, 0]);
 
         } catch (err) {
@@ -41,8 +45,10 @@ class Play {
     // - The user is authenticated
     // - The user has a game running
     // NOTE: This might be the place to check for victory, but it depends on the game
+
     static async endTurn(game) {
         try {
+
             // Change player state to waiting (1)
             await pool.query(`Update user_game set ug_state_id=? where ug_id = ?`,
                 [1, game.player.id]);
@@ -54,19 +60,28 @@ class Play {
                 [game.id]);
             // removes the cards of the player that ended and get new cards to the one that will start
             await MatchDecks.resetPlayerDeck(game.player.id);
-            await MatchDecks.genPlayerDeck(game.opponents[0].id);
+            await MatchDecks.genPlayerDeck(game.opponents[0].id,Settings.nCards);
+            
+            
+          
+            
             // Give actions points to the player that started and reset the ship state to Ready
-            await pool.query(`Update ship set sh_ap=sh_ap+?, sh_state_id=1 where sh_user_game_id = ?`,
-                [Settings.apPerTurn, game.opponents[0].id]);
+            await pool.query(`Update ship set sh_state_id=1, sh_ap = if(sh_ap<20 or sh_ap>20 ,sh_ap + ?,sh_ap +0 ) where sh_user_game_id = ?`,
+            
+            [Settings.apPerTurn, game.opponents[0].id]);
+            
+            
+        // Update ship set sh_ap=sh_ap+?, sh_state_id=1 where sh_user_game_id = ?
 
             return { status: 200, result: { msg: "Your turn ended." } };
+        
         } catch (err) {
             console.log(err);
             return { status: 500, result: err };
         }
     }
 
-
+  
 
 }
 

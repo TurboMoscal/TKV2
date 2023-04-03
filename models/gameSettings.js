@@ -1,4 +1,7 @@
-module.exports.maxShipHP = 20;
-module.exports.halfHP = 10;
-module.exports.apPerTurn = 3;
-module.exports.nCards = 3;
+module.exports.maxShipHP = 10;
+//module.exports.halfHP = 5;
+module.exports.apPerTurn = 2;
+module.exports.inCards = 3;
+module.exports.nCards = 1;
+module.exports.maxAp = 20;
+module.exports.plyCrd = 3;

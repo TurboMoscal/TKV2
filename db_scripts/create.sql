@@ -1,6 +1,6 @@
-create database shipgame;
+create database shipgame1;
 
-use shipgame;
+use shipgame1;
 
 create table user (
     usr_id int not null auto_increment,
