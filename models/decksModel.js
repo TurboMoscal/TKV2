@@ -53,16 +53,17 @@ class MatchDecks {
     // We consider it will only be called at the right time
     static async genPlayerDeck(playerId,nCards) {
         try {
-                let cards =[];
-                for (let i=0; i < nCards; i++) {
-                    let result = await Card.genCard(playerId);
-                    cards.push(result.result);
-                }
-                return {status:200, result: cards};
-            } catch (err) {
-                console.log(err);
-                return { status: 500, result: err };
+            let cards =[];
+            for (let i=0; i < nCards; i++) {
+                let result = await Card.genCard(playerId);
+                cards.push(result.result);
             }
+            Settings.maxCards += 1;
+            return {status:200, result: cards};
+        } catch (err) {
+            console.log(err);
+            return { status: 500, result: err };
+        }
     }
 
     // No verifications are made since this is consider to be an auxiliary method
@@ -70,6 +71,7 @@ class MatchDecks {
     static async resetPlayerDeck(playerId) {
         try {
             let [result] = await pool.query(`delete from user_game_card where not ugc_active`, [playerId]);
+            Settings.maxCards -= 1;
             return {status:200, result: {msg:"All cards removed"}};
         } catch (err) {
             console.log(err);
@@ -114,7 +116,7 @@ class MatchDecks {
             }   
             let card =  fromDBCardToCard(dbDeckCards[0]);
             let playerObj = game.player.obj;
-            let oppObj = game.opponents[0].obj;
+            let oppObj = game.opponents[0].obj; 
             
             // verifications
             // Check if we have enough action points

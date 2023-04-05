@@ -24,7 +24,7 @@ class Play {
             // ---- Specific to this game
             // Player that starts gets new cards
             await MatchDecks.genPlayerDeck(p1Id,Settings.inCards);
-            await MatchDecks.genPlayerDeck(p2Id,Settings.inCards);
+            await MatchDecks.genPlayerDeck(p2Id,Settings.inCards-Settings.nCards);
         
             // generating ships for both players first player gets 3 action points
             let objSql = `Insert into ship (sh_user_game_id,sh_state_id,sh_hp,sh_ap) values (?,?,?,?)`
@@ -47,6 +47,7 @@ class Play {
     // NOTE: This might be the place to check for victory, but it depends on the game
 
     static async endTurn(game) {
+        
         try {
 
             // Change player state to waiting (1)
@@ -60,8 +61,8 @@ class Play {
                 [game.id]);
             // removes the cards of the player that ended and get new cards to the one that will start
             await MatchDecks.resetPlayerDeck(game.player.id);
-            await MatchDecks.genPlayerDeck(game.opponents[0].id,Settings.nCards);
-            
+            if (Settings.maxCards < 3){
+            await MatchDecks.genPlayerDeck(game.opponents[0].id,Settings.nCards)};
             
           
             

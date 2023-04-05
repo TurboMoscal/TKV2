@@ -4,4 +4,4 @@ module.exports.apPerTurn = 2;
 module.exports.inCards = 3;
 module.exports.nCards = 1;
 module.exports.maxAp = 20;
-module.exports.plyCrd = 3;
+module.exports.maxCards = 3;
