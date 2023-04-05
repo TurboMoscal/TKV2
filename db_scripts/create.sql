@@ -1,6 +1,6 @@
-create database shipgame1;
+create database shipgame;
 
-use shipgame1;
+use shipgame;
 
 create table user (
     usr_id int not null auto_increment,
@@ -40,6 +40,7 @@ create table ship (
     sh_state_id int not null,
     sh_hp int not null,
     sh_ap int not null,
+    sh_max_crds int not null,
     primary key (sh_id));
 
 create table ship_state (

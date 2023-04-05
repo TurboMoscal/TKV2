@@ -61,7 +61,8 @@ class Play {
                 [game.id]);
             // removes the cards of the player that ended and get new cards to the one that will start
             await MatchDecks.resetPlayerDeck(game.player.id);
-            if (Settings.maxCards < 3){
+            
+            if (Settings.maxCards < 3) {
             await MatchDecks.genPlayerDeck(game.opponents[0].id,Settings.nCards)};
             
           

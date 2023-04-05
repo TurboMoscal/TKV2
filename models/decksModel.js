@@ -58,7 +58,6 @@ class MatchDecks {
                 let result = await Card.genCard(playerId);
                 cards.push(result.result);
             }
-            Settings.maxCards += 1;
             return {status:200, result: cards};
         } catch (err) {
             console.log(err);
@@ -71,7 +70,6 @@ class MatchDecks {
     static async resetPlayerDeck(playerId) {
         try {
             let [result] = await pool.query(`delete from user_game_card where not ugc_active`, [playerId]);
-            Settings.maxCards -= 1;
             return {status:200, result: {msg:"All cards removed"}};
         } catch (err) {
             console.log(err);
