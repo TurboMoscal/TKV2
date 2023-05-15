@@ -1,6 +1,6 @@
-create database shipgame;
+create database game;
 
-use shipgame;
+use game;
 
 create table user (
     usr_id int not null auto_increment,
@@ -32,46 +32,73 @@ create table user_game_state (
     ugst_state varchar(60) not null,
     primary key (ugst_id));
 
-# ----------- NEW ---------------
+create table player (
+    pl_id int not null auto_increment,
+    pl_user_game_id int not null,
+    pl_state_id int not null,
+    pl_hp int not null,
+    pl_ap int not null,
+    pl_class_id int not null,
+    primary key (pl_id));
 
-create table ship (
-    sh_id int not null auto_increment,
-    sh_user_game_id int not null,
-    sh_state_id int not null,
-    sh_hp int not null,
-    sh_ap int not null,
-    sh_max_crds int not null,
-    primary key (sh_id));
+create table player_state (
+    pls_id int not null auto_increment,
+    pls_state varchar (60) not null,
+    primary key (pls_id));
 
-create table ship_state (
-    shs_id int not null auto_increment,
-    shs_state varchar (60) not null,
-    primary key (shs_id));
 
-# could add a card type, but for now it does not seem useful
-# each card is very different from the others and needs specific code
-# later we would also need image, lore, etc
-create table card (
-    crd_id int not null auto_increment,
-    crd_cost int not null,
-    crd_name varchar(50) not null,
-    crd_effect varchar(150) not null,
-    crd_note varchar(200),
-    crd_type_id int not null,
-    primary key (crd_id));
+create table hosp_card (
+    hosp_crd_id int not null auto_increment,
+    hosp_crd_name varchar(50) not null,
+    hosp_crd_effect varchar(150) not null,
+    hosp_crd_note varchar(200),
+    primary key (hosp_crd_id));
+    
+    
+create table class_card (
+    cla_crd_id int not null auto_increment,
+    cla_crd_name varchar(50) not null,
+    cla_crd_effect varchar(150) not null,
+    cla_crd_note varchar(200),
+    primary key (cla_crd_id));
 
-create table card_type (
-    ct_id int not null auto_increment,
-    ct_name varchar (60) not null,
-    primary key (ct_id));
+create table hus_card (
+    hus_crd_id int not null auto_increment,
+    hus_crd_name varchar(50) not null,
+    hus_crd_effect varchar(150) not null,
+    hus_crd_note varchar(200),
+    primary key (hus_crd_id));
 
-create table user_game_card (
-    ugc_id int not null auto_increment,
-    ugc_user_game_id int not null,
-    ugc_crd_id int not null,
-    ugc_active tinyint(1) not null,
-    primary key (ugc_id)
+create table user_game_hosp_card (
+    hosp_ugc_id int not null auto_increment,
+    hosp_ugc_user_game_id int not null,
+    hosp_ugc_crd_id int not null,
+    hosp_ugc_active tinyint(1) not null,
+    primary key (hosp_ugc_id)
 );
+
+create table user_game_hus_card (
+    hus_ugc_id int not null auto_increment,
+    hus_ugc_user_game_id int not null,
+    hus_ugc_crd_id int not null,
+    hus_ugc_active tinyint(1) not null,
+    primary key (hus_ugc_id)
+);
+
+create table user_game_class_card (
+    ugcla_c_id int not null auto_increment,
+    ugcla_c_user_game_id int not null,
+    ugcla_c_crd_id int not null,
+    ugcla_c_active tinyint(1) not null,
+    primary key (ugcla_c_id)
+);
+
+create table class (
+    class_id int not null,
+    class_name varchar(50));
+
+
+
 
 # Foreign Keys
 
@@ -91,24 +118,28 @@ alter table user_game add constraint user_game_fk_user_game_state
             foreign key (ug_state_id) references user_game_state(ugst_id) 
 			ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-# ----------- NEW ---------------
 
-alter table ship add constraint ship_fk_user_game
-            foreign key (sh_user_game_id) references user_game(ug_id) 
+alter table player add constraint player_fk_user_game
+            foreign key (pl_user_game_id) references user_game(ug_id) 
 			ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-alter table ship add constraint ship_fk_ship_state
-            foreign key (sh_state_id) references ship_state(shs_id) 
+alter table player add constraint player_fk_player_state
+            foreign key (pl_state_id) references player_state(pls_id) 
 			ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-alter table user_game_card add constraint user_game_card_fk_user_game
-            foreign key (ugc_user_game_id) references user_game(ug_id) 
+alter table user_game_hosp_card add constraint user_game_hosp_card_fk_user_game
+            foreign key (hosp_ugc_user_game_id) references user_game(ug_id) 
 			ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-alter table user_game_card add constraint user_game_card_fk_card
-            foreign key (ugc_crd_id) references card(crd_id) 
+alter table user_game_hosp_card add constraint user_game_hosp_card_fk_card
+            foreign key (hosp_ugc_crd_id) references hosp_card(hosp_crd_id) 
 			ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-alter table card add constraint card_fk_card_type
-            foreign key (crd_type_id) references card_type(ct_id) 
+
+alter table user_game_hus_card add constraint user_game_hus_card_fk_user_game
+            foreign key (hus_ugc_user_game_id) references user_game(ug_id) 
+			ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+alter table user_game_hus_card add constraint user_game_hus_card_fk_card
+            foreign key (hus_ugc_crd_id) references hus_card(hus_crd_id) 
 			ON DELETE NO ACTION ON UPDATE NO ACTION;

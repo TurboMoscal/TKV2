@@ -13,16 +13,18 @@ class State {
 }
 
 class Obj {
-    constructor (id,hp,ap,state) {
+    constructor (id,hp,ap,gameClass,state) {
         this.id = id;
         this.hp = hp;
         this.ap = ap;
+        this.gameClass = gameClass;
         this.state = state;
     }
     export() {
         let obj = new Obj();
         obj.hp = this.hp;
         obj.ap = this.ap;
+        obj.gameClass = this.gameClass;
         obj.state = this.state.export();
         return obj;
     }
@@ -73,14 +75,15 @@ class Game {
             let [dbPlayers] = await pool.query(`Select * from user 
             inner join user_game on ug_user_id = usr_id
             inner join user_game_state on ugst_id = ug_state_id
-            left join ship on sh_user_game_id = ug_id
-            left join ship_state on sh_state_id = shs_id
+            left join player on pl_user_game_id = ug_id
+            left join player_state on pl_state_id = pls_id
+            left join class on class_id = pl_class_id
             where ug_game_id=?`, [game.id]);
             for (let dbPlayer of dbPlayers) {
                 let player = new Player(dbPlayer.ug_id,dbPlayer.usr_name,
                             new State(dbPlayer.ugst_id,dbPlayer.ugst_state),
-                            new Obj(dbPlayer.sh_id, dbPlayer.sh_hp,dbPlayer.sh_ap,
-                                new State(dbPlayer.shs_id,dbPlayer.shs_state)));
+                            new Obj(dbPlayer.pl_id, dbPlayer.pl_hp,dbPlayer.pl_ap,dbPlayer.class_name,
+                                new State(dbPlayer.pls_id,dbPlayer.pls_state)));
                 if (dbPlayer.usr_id == userId) game.player = player;
                 else game.opponents.push(player);
             }
