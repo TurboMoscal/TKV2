@@ -1,22 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Waiting</title>
-    <link rel="stylesheet" href="./stylesheets/style.css">
+    <style>
+        .loader {
+            border: 4px solid #b08926;
+            border-top: 4px solid #000000;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        .container {
+            position: relative;
+            width: 0px;
+            height: 300px;
+        }
+
+        .positioned-image {
+            position: absolute;
+            top: -340px;
+            left: -690px;
+        }
+    </style>
+    <link rel="stylesheet" href="./stylesheets/c.css">
     <script src="./javascripts/utils/verifications.js"></script>
     <script src="./javascripts/requests/matchesRequests.js"></script>
     <script src="./javascripts/requests/usersRequests.js"></script>
     <script src="./javascripts/waiting.js"></script>
 </head>
+
 <body>
-    <header>
-        <h1 id="player"> Hello ______ </h1>
-    </header>
-    <body>
-        <h1> You started a game!</h1>
-        <h2> Waiting for other player to join ...</h2>
-        <input type="button" value="Cancel game" onclick="cancel()">
-    </body>
+    <div class="login-box">
+        <div class="loader"></div>
+        <h3>Waiting for other player to join</h3>
+        <div class="input-submit2">
+            <button class="submit2-btn" id="submit2" onclick="cancel()"></button>
+            <label for="submit2">Cancel game</label>
+        </div>
+    </div>
+    <div class="container">
+        <img src="logo.png" class="positioned-image">
+    </div>
+
 </body>
+
 </html>

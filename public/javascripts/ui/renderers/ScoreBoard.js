@@ -8,18 +8,22 @@ class ScoreBoard {
         this.game = game;
     }
     draw() {
-        fill(100,100,200);
+        fill(156,106,38);
         stroke(0,0,0);
-        rect (SB_POSX,SB_POSY,SB_WIDTH,SB_HEIGHT,5,5,5,5);
+        //rect (SB_POSX,SB_POSY,SB_WIDTH,SB_HEIGHT,5,5,5,5);
         fill(255);
         textAlign(LEFT,CENTER);
         textSize(18);
         textStyle(BOLD);
-        text("Turn: "+this.game.turn,SB_POSX+10,SB_POSY+SB_HEIGHT/4)
-        text("Player: "+this.game.player.name,SB_POSX+10,SB_POSY+2*SB_HEIGHT/4);
-        text("Opponent: "+this.game.opponents[0].name,SB_POSX+10,SB_POSY+3*SB_HEIGHT/4);
-        text(`(${this.game.player.state})`,SB_POSX+200,SB_POSY+2*SB_HEIGHT/4);
-        text(`(${this.game.opponents[0].state})`,SB_POSX+200,SB_POSY+3*SB_HEIGHT/4);
+        text("Turn: "+this.game.turn,SB_POSX+150,SB_POSY+SB_HEIGHT/2.2)
+        text("Player: "+this.game.player.name,SB_POSX-1400,SB_POSY+2*SB_HEIGHT + 580);
+        text("Opponent: "+this.game.opponents[0].name,SB_POSX-1400,SB_POSY+3*SB_HEIGHT/7);
+        //text(`(${this.game.player.state})`,SB_POSX+140,SB_POSY+16.5*SB_HEIGHT/4);
+        //text(`(${this.game.opponents[0].state})`,SB_POSX+200,SB_POSY+3*SB_HEIGHT/4);
+        if (this.game.player.state == "Playing"){
+            text("Your Turn",SB_POSX+140,SB_POSY+16.5*SB_HEIGHT/4);
+        }
+        else text("Opponent's Turn",SB_POSX+140,SB_POSY+16.5*SB_HEIGHT/4);
         if (this.game.state == "Finished"){ 
             fill(200,0,0);
             textSize(24);

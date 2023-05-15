@@ -1,33 +1,49 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>The Knights of Valiantwind</title>
+    <link rel="stylesheet" href="/stylesheets/c.css">
+    <script src="./javascripts/requests/usersRequests.js"></script>
+    <script src="./javascripts/register.js"></script>
+    <style>
+      .container {
+          position: relative;
+          width: 0px;
+          height: 300px;
+      }
 
-<head>
-  <title>The Knights of Valiantwind</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
-  <script src="./javascripts/requests/usersRequests.js"></script>
-  <script src="./javascripts/register.js"></script>
-</head>
-
+      .positioned-image {
+          position: absolute;
+          top: -100px;
+          left: -250px;
+      }
+  </style>
+  </head>
 <body>
-  <header>
-    <h1>Register</h1>
-  </header>
-  <main>
-    <form action="javascript:register()">
-      <table>
-        <tr>
-          <td>Name:</td>
-          <td><input type="text" autocomplete="username" id="name"></td>
-        </tr>
-        <tr>
-          <td>Password:</td>
-          <td><input type="password" autocomplete="new-password"  id="password"></td>
-        </tr>
-      </table>
-      <p id="msg" class="warning"></p>
-      <p><input type="submit" value="Register"></p>
-      <p><a href="index.html">Login page</a></p>
-    </form>
-  </main>
-</body>
+  <form action="javascript:register()">
+    <div id="timer"><span id="countdown"></span></div>
 
+    <div class="container">
+      <img src="logo.png" class="positioned-image">
+    </div>
+    <div class="login-box">
+    
+        <div class="input-box">
+            <input type="text" class="input-field" placeholder="Login" autocomplete="off" required id = "name">
+        </div>
+        <div class="input-box">
+            <input type="password" class="input-field" placeholder="Password" autocomplete="off" id="password">
+        </div>
+        <p id="msg2" class="warning2"></p>
+        <p id="msg1" class="warning1"></p>
+        <div class="input-submit3">
+            <button class="submit3-btn" id="submit3"></button>
+            <label for="submit3">Register</label>
+        </div>
+        <div class="sign-up-link">
+            <p>Already have an account ? <a href="index.html">Login page</a></p>
+        </div>
+    </div>
+  </form>
+</body>
 </html>

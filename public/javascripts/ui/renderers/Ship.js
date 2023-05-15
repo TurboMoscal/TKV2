@@ -30,17 +30,16 @@ class Obj {
     }
     draw() {
         // the text box
-        fill(100,100,200);
+        fill(156,106,38);
         stroke(0);
-        rect(this.textOffset+this.x,this.y,Obj.textWidth,Obj.textHeight);
+        //rect(this.textOffset+this.x,this.y,Obj.textWidth,Obj.textHeight);
         fill(255);
         textAlign(CENTER,CENTER);
-        textSize(18);
+        textSize(27);
         textStyle(BOLD);
-        text(this.title,this.textOffset+this.x,this.y,Obj.textWidth,1*Obj.textHeight/4);
-        text(this.obj.state,this.textOffset+this.x,this.y+Obj.textHeight/4,Obj.textWidth,Obj.textHeight/4);
-        text("HP: "+this.obj.hp,this.textOffset+this.x,this.y+2*Obj.textHeight/4,Obj.textWidth,Obj.textHeight/4);
-        text("AP:"+this.obj.ap,this.textOffset+this.x,this.y+3*Obj.textHeight/4,Obj.textWidth,Obj.textHeight/4);        
+        text(""+this.obj.hp,this.textOffset+this.x + 535,this.y+2*Obj.textHeight/5,Obj.textWidth,Obj.textHeight/5);
+        text(""+this.obj.ap,this.textOffset+this.x+1120,this.y+2*Obj.textHeight/5,Obj.textWidth,Obj.textHeight/5);        
+        text(""+this.obj.gameClass,this.textOffset+this.x+780,this.y+2*Obj.textHeight/5,Obj.textWidth,Obj.textHeight/5);       
         // the image
        /* let ellapsed = millis() - this.time;
         if (ellapsed > Obj.swaptime) {
