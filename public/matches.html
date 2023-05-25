@@ -9,14 +9,15 @@
     <script src="./javascripts/matches.js"></script>
     <style>
       .container {
-          position: relative;
-          width: 0px;
-          height: 300px;
+          position: absolute;
+          
+          height: 270px;
+          margin-right: 400px;
       }
 
       .positioned-image {
           position: absolute;
-          top: -340px;
+          top: -170px;
           left: -250px;
       }
   </style>
@@ -25,14 +26,13 @@
   <div class="container">
     <img src="logo.png" class="positioned-image">
   </div>
-  <div class="login-box">
-    <section id="matches"></section>
-    <label for="matches"></label>
-    <div class="input-submit4">
+  <div class="login-box1">
+     <div class="input-submit4">
       <button class="submit4-btn" id="submit4" onclick="createMatch()"></button>
       <label for="submit4">Create my match</label>
   </div>
-    <span id="player"></span>
+  <section id ="matches"></section>
+  <label for="matches"></label>
     <div class="input-submit2">
         <button class="submit2-btn" id="submit2" onclick="logout()"></button>
         <label for="submit2">Logout</label>

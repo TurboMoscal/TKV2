@@ -52,11 +52,33 @@ async function playCard(card) {
     if (!card.active) {
         alert("That card was already played");
     } else {
-        let result = await requestPlayCard(card.deckId);
+        let result = await requestPlayCard(card.deckId,card.type);
+        if(card.type == 1){
+            playAttackSound();
+        }
+
+        if(card.type == 2 && GameInfo.game.player.obj.hp < 10){
+            playHealSound();
+        }
+
+        if(card.type == 3){
+            playSpecialSound();
+        }
+
+        if(card.type == 4){
+            playMirrorSound();
+        } 
+        
+        if(card.type == 5){
+            playDefenseSound();
+        }
+        if(card.type == 6){
+            playSelectionSound();
+        }
         await getGameInfo();
         await getDecksInfo();
         await getObjsInfo();
-        await endturnAction()
+        await endturnAction();
     }
 }
 

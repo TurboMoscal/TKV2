@@ -21,7 +21,8 @@ function fillMatches(matches) {
         let elem = document.createElement("section");
         elem.onclick = () => join(match.id);
         let p = document.createElement("p");
-        p.style.marginLeft = "140px";
+        p.style.marginRight = "150px";
+        p.style.marginLeft = "150px"
         p.style.fontSize = "17px";
         if (match.player) // this should not happen
             p.textContent = `Your game!`
@@ -32,7 +33,6 @@ function fillMatches(matches) {
         container.appendChild(elem);
     }
 }
-
 async function join(mId) {
     try {
         let result = await requestJoinMatch(mId);

@@ -9,12 +9,25 @@ class Card {
         this.x = x;
         this.y = y;
         this.img = img;
+        if (this.card.image) {
+            let imageName = this.card.image;
+            let name = imageName.split('.')[0].toLowerCase();
+            this.cardImage = GameInfo.images[name];
+        }
     }
-    draw() {
+    draw(darker,hover,normal) {
         if (!this.card.active) tint(56, 56, 56);
-        if (GameInfo.game.player.state == "Waiting" && this.card.active) {
+        if (normal && this.card.active){
+            tint(214, 214, 214);
+        }
+        if (mouseX > this.x && mouseX < this.x + Card.width && mouseY > this.y && mouseY < this.y + Card.height && hover && this.card.active && GameInfo.gameoverState == false)
+            tint(255, 255, 255);
+        if (darker && this.card.active) {
             tint(128, 128, 128);}
-        image(this.img, this.x, this.y, Card.width, Card.height);
+        if (this.card.image)     
+            image(this.cardImage,this.x, this.y, Card.width, Card.height);    
+        else 
+            image(this.img, this.x, this.y, Card.width, Card.height);
         textFont(GameInfo.fonts.retro);
         textAlign(CENTER, CENTER);
         fill(255)
@@ -26,7 +39,7 @@ class Card {
         strokeWeight(1);
         noStroke();
         fill(0);
-        textSize(12);
+        textSize(15);
         text(this.card.name, this.x + Card.width * 0.5, this.y + Card.height * 0.12);
         textSize(8);
         textAlign(CENTER, TOP);
@@ -58,6 +71,9 @@ class Deck {
         this.cardImg = cardImg;
         this.cards = this.createCards(cardsInfo);
         this.active;
+        this.darker = false;
+        this.hover = false;
+        this.normal = false;
     }
 
     createCards(cardsInfo) {
@@ -83,12 +99,13 @@ class Deck {
         textAlign(CENTER, CENTER);
         text(this.title, this.x, this.y, this.width, Deck.titleHeight);
         for (let card of this.cards) {
-            card.draw();
+            card.draw(this.darker, this.hover, this.normal);
         }
+
     }
 
     click() {
-        if (this.clickAction && GameInfo.playerDeck.active == true) {
+        if (this.clickAction && GameInfo.playerDeck.active == true && GameInfo.gameoverState == false) {
             for (let card of this.cards) {
                 if (card.click()) {
                     this.clickAction(card.card);

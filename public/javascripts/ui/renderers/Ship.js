@@ -37,9 +37,9 @@ class Obj {
         textAlign(CENTER,CENTER);
         textSize(27);
         textStyle(BOLD);
-        text(""+this.obj.hp,this.textOffset+this.x + 535,this.y+2*Obj.textHeight/5,Obj.textWidth,Obj.textHeight/5);
-        text(""+this.obj.ap,this.textOffset+this.x+1120,this.y+2*Obj.textHeight/5,Obj.textWidth,Obj.textHeight/5);        
-        text(""+this.obj.gameClass,this.textOffset+this.x+780,this.y+2*Obj.textHeight/5,Obj.textWidth,Obj.textHeight/5);       
+        text(""+this.obj.hp,this.textOffset+this.x + 505,this.y+2*Obj.textHeight/5,Obj.textWidth,Obj.textHeight/5);
+        text(""+this.obj.ap,this.textOffset+this.x+1110,this.y+2*Obj.textHeight/5,Obj.textWidth,Obj.textHeight/5);        
+        text(""+this.obj.gameClass,this.textOffset+this.x+780,this.y+2*Obj.textHeight/5,Obj.textWidth,Obj.textHeight/5);   
         // the image
        /* let ellapsed = millis() - this.time;
         if (ellapsed > Obj.swaptime) {

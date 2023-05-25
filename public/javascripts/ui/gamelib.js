@@ -45,8 +45,8 @@ function preload() {
     GameInfo.images.fielddoctorcard = loadImage('/assets/fielddoctorCard.png');
     GameInfo.images.halberdcard = loadImage('/assets/halberdCard.png');
     GameInfo.images.hospcard = loadImage('/assets/hospCard.png');
-    GameInfo.images.hospitallerdefencecard = loadImage('/assets/hospitallerdefenceCard.png');
-    GameInfo.images.husariadefencecard = loadImage('/assets/husariadefenceCard.png');
+    GameInfo.images.hospdefencecard = loadImage('/assets/hospdefenceCard.png');
+    GameInfo.images.husdefencecard = loadImage('/assets/husdefenceCard.png');
     GameInfo.images.huscard = loadImage('/assets/husCard.png');
     GameInfo.images.macecard = loadImage('/assets/maceCard.png');
     GameInfo.images.medicinalherbscard = loadImage('/assets/medicinalherbsCard.png');
@@ -57,8 +57,16 @@ function preload() {
     GameInfo.images.stilettocard = loadImage('/assets/stilettoCard.png');
     GameInfo.images.swordcard = loadImage('/assets/swordCard.png');
     GameInfo.fonts.retro = loadFont("/assets/RETRO_SPACE.ttf");
-    //GameInfo.images.obj = loadImage('/assets/Ship_big_with_guns.png');
-   // GameInfo.images.ripples = loadImage('/assets/Ship_ripples_big_all.png');   
+    GameInfo.sounds.win = loadSound('/assets/win.wav');
+    GameInfo.sounds.lose = loadSound('/assets/lose.wav');
+    GameInfo.sounds.attack = loadSound('/assets/sword.mp3');
+    GameInfo.sounds.healing = loadSound('/assets/heal.wav');
+    GameInfo.sounds.background = loadSound('/assets/background.mp3');
+    GameInfo.sounds.special= loadSound('/assets/special.mp3');
+    GameInfo.sounds.mirror = loadSound('/assets/mirror.mp3');
+    GameInfo.sounds.defense = loadSound('/assets/defense.mp3');
+    GameInfo.sounds.selection = loadSound('/assets/warcry.wav')
+
 }
 
 
@@ -66,19 +74,19 @@ async function setup() {
     let canvas = createCanvas(GameInfo.width, GameInfo.height);
     canvas.parent('game');
     // preload  images
-    
+    //GameInfo.sounds.background.loop();
     await  getGameInfo();
     setInterval(refresh,1000);
 
     //buttons (create a separated function if they are many)
     
-    GameInfo.endturnButton = createButton('End Turn');
-    GameInfo.endturnButton.parent('game');
-    GameInfo.endturnButton.position(50, GameInfo.height-20);
-    GameInfo.endturnButton.mousePressed(endturnAction);
-    GameInfo.endturnButton.addClass('game')
+    //GameInfo.endturnButton = createButton('End Turn');
+    //GameInfo.endturnButton.parent('game');
+    //GameInfo.endturnButton.position(50, GameInfo.height-20);
+    //GameInfo.endturnButton.mousePressed(endturnAction);
+    //GameInfo.endturnButton.addClass('game')
 
-    GameInfo.endgameButton = createButton('End Game');
+    GameInfo.endgameButton = createButton('Leave Match');
     GameInfo.endgameButton.parent('game');
     GameInfo.endgameButton.position(1600, GameInfo.height-50);
     GameInfo.endgameButton.mousePressed(cancel);
@@ -112,6 +120,51 @@ function draw() {
     }    
 }
 
+
+function playWinSound() {
+    GameInfo.sounds.win.play();
+}
+
+
+function playLoseSound() {
+    GameInfo.sounds.lose.play();
+}
+
+function playAttackSound() {
+    GameInfo.sounds.attack.play();
+}
+
+
+function playHealSound() {
+    GameInfo.sounds.healing.play();
+}
+
+function playSpecialSound() {
+    GameInfo.sounds.special.play();
+}
+
+function playMirrorSound() {
+    GameInfo.sounds.mirror.play();
+}
+
+function playDefenseSound() {
+    GameInfo.sounds.defense.play();
+}
+
+function playSelectionSound(){
+    GameInfo.sounds.selection.play();
+}
+
+
+/*if (GameInfo.game.opponents[0].obj.hp <= 0) {
+    playWinSound();
+}
+
+
+if (GameInfo.game.player.obj.hp <= 0) {
+    playLoseSound()
+}*/
+
 async function gameOver() {
     if (GameInfo.game.opponents[0].obj.hp <= 0) {
         image(GameInfo.images.youwon,0,0,GameInfo.width,GameInfo.height);
@@ -133,12 +186,14 @@ async function gameOverShortcut() {
     GameInfo.game.opponents[0].obj.hp = 0
     GameInfo.endgameButton.show();
     GameInfo.game.player.state = "End";
+    GameInfo.gameoverState = true;
 }
 
 async function gameOverShortcutLose() {
     GameInfo.game.player.obj.hp = 0
     GameInfo.endgameButton.show();
     GameInfo.game.player.state = "End";
+    GameInfo.gameoverState = true;
 }
 
 function keyPressed() {

@@ -8,6 +8,7 @@ class ScoreBoard {
         this.game = game;
     }
     draw() {
+        
         fill(156,106,38);
         stroke(0,0,0);
         //rect (SB_POSX,SB_POSY,SB_WIDTH,SB_HEIGHT,5,5,5,5);

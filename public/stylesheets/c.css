@@ -13,6 +13,15 @@ body {
   background: #dfdfdf;
 }
 
+.login-box1 {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 440px;
+  height: 480px;
+  padding: 30px;
+}
+
 .login-box {
   display: flex;
   justify-content: center;
@@ -20,6 +29,7 @@ body {
   width: 440px;
   height: 480px;
   padding: 30px;
+  margin-top:520px;
 }
 
 .login-header {
@@ -119,11 +129,12 @@ section a {
   border: none;
   border-radius: 30px;
   transition: .3s;
+  margin-top: 20px;
 }
 
 .input-submit2 label {
   position: absolute;
-  top: 45%;
+  top: 62%;
   left: 50%;
   color: #fff;
   -webkit-transform: translate(-50%, -50%);
@@ -142,6 +153,7 @@ section a {
   border: none;
   border-radius: 30px;
   transition: .3s;
+
 }
 
 .input-submit3 label {
@@ -162,24 +174,22 @@ section a {
   width: 100%;
   height: 60px;
   background: #222;
-  border: none;
-  border-radius: 30px;
+  border-radius:30px;
   transition: .3s;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top:630px;
+  margin-bottom:10px;
+  border: none;
 }
 
 .input-submit4 label {
   position: absolute;
-  top: 48%;
+  top: 94%;
   left: 50%;
   color: #fff;
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
-
-
 
 
 .submit-btn:hover {
@@ -227,27 +237,33 @@ section a {
 }
 
 #matches {
-  position: relative;
+  overflow-y:auto;
+  margin-top:350px;
+  position:absolute;
+  height:80px;
+  width:384px; 
+  margin-right:50px;
 }
 
 #matches section {
-  color: #fff;
-  background-color: #000000;
-  padding: 20px;
-  transition: 0.3s;
-  width: 100%;
-  height: 60px;
-  background: #222;
-  border: none;
-  border-radius: 30px;
-  margin-top: 200px;
-  
+  position:relative;
+  color:#fff;
+  background-color:#000000;
+  padding:20px;
+  transition:0.3s;
+  background:#222;
+  border:none;
+  border-radius:30px;
+  height:60px;
+ /* width:1050px;*/
+  /*margin-top: 100px;*/
+  margin-right:12.9px;
 }
-
+      
 
 #matches section:hover {
   background-color: #10e20d;
-  transform: scale(1.05, 1);
+  /*transform: scale(1.05, 1);*/
 }
 
 
