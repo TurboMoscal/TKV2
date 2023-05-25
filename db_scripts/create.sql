@@ -52,6 +52,8 @@ create table hosp_card (
     hosp_crd_name varchar(50) not null,
     hosp_crd_effect varchar(150) not null,
     hosp_crd_note varchar(200),
+    hosp_crd_img varchar(200) not null,
+    hosp_crd_type int not null,
     primary key (hosp_crd_id));
     
     
@@ -60,6 +62,8 @@ create table class_card (
     cla_crd_name varchar(50) not null,
     cla_crd_effect varchar(150) not null,
     cla_crd_note varchar(200),
+    cla_crd_img varchar (200) not null,
+    cla_crd_type int not null,
     primary key (cla_crd_id));
 
 create table hus_card (
@@ -67,6 +71,8 @@ create table hus_card (
     hus_crd_name varchar(50) not null,
     hus_crd_effect varchar(150) not null,
     hus_crd_note varchar(200),
+    hus_crd_img varchar (200),
+    hus_crd_type int not null,
     primary key (hus_crd_id));
 
 create table user_game_hosp_card (
@@ -75,7 +81,7 @@ create table user_game_hosp_card (
     hosp_ugc_crd_id int not null,
     hosp_ugc_active tinyint(1) not null,
     primary key (hosp_ugc_id)
-);
+); 
 
 create table user_game_hus_card (
     hus_ugc_id int not null auto_increment,

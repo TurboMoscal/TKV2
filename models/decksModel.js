@@ -4,29 +4,31 @@ const Settings = require("./gameSettings");
 function fromDBHospCardToCard(dbCard) {
     return new Card(dbCard.hosp_crd_id, dbCard.hosp_ugc_id,
         dbCard.hosp_crd_name, dbCard.hosp_crd_effect, dbCard.hosp_crd_note,
-        dbCard.hosp_ugc_active);
+        dbCard.hosp_ugc_active, dbCard.hosp_crd_img,dbCard.hosp_crd_type);
 }
 
 function fromDBHusCardToCard(dbCard) {
     return new Card(dbCard.hus_crd_id, dbCard.hus_ugc_id,
-        dbCard.hus_crd_name, dbCard.hus_crd_effect, dbCard.hus_crd_note, dbCard.hus_ugc_active);
+        dbCard.hus_crd_name, dbCard.hus_crd_effect, dbCard.hus_crd_note, dbCard.hus_ugc_active, dbCard.hus_crd_img,dbCard.hus_crd_type);
 }
 
 function fromDBClassCardToCard(dbCard) {
     return new Card(dbCard.cla_crd_id, dbCard.ugcla_c_id,
-        dbCard.cla_crd_name, dbCard.cla_crd_effect, dbCard.cla_crd_note, dbCard.ugcla_c_active);
+        dbCard.cla_crd_name, dbCard.cla_crd_effect, dbCard.cla_crd_note, dbCard.ugcla_c_active, dbCard.cla_crd_img,dbCard.cla_crd_type);
 }
 
 
 
 class Card {
-    constructor(cardId, deckId, name, effect, note, active) {
+    constructor(cardId, deckId, name, effect, note, active, image,type) {
         this.cardId = cardId;
         this.deckId = deckId;
         this.name = name;
         this.effect = effect;
         this.note = note;
         this.active = active;
+        this.image = image;
+        this.type = type;
     }
 
     // We consider all verifications of max cards are done
@@ -734,8 +736,8 @@ function defenseHusaria(playerObj) {
     if (playerObj.ap >= 10) {
         playerObj.ap -= 10;
         playerObj.hp += 2;
+        if (playerObj.hp > Settings.maxShipHP) playerObj.hp = Settings.maxShipHP;
         playerObj.state.id = 5;
-        // playerObj.state.name = "Acted";
     } else {
         //alert("Not enough action points");
         return { status: 404, result: { msg: "Not enough action points" } };
