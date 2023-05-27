@@ -3,7 +3,10 @@ const { game } = require("./gameInfo");
 async function cancel() {
     try {
         let result = await requestCancelMatch();
-        window.location.pathname = "matches.html";
+        if (result.successful)
+            window.location.pathname = "matches.html"
+        else
+            window.location.pathname = "matches.html"
     } catch(err) {
         console.log(err);
     }
@@ -21,9 +24,9 @@ async function refresh() {
             gameOver();
         }
     } 
+    // Nothing to do when we are playing since we control all that happens 
+    // so no update is needed from the server
 }
-
-let volumeSlider;
 
 function preload() {
     GameInfo.images.card = loadImage('/assets/card_template.png');
@@ -70,26 +73,25 @@ function preload() {
 async function setup() {
     let canvas = createCanvas(GameInfo.width, GameInfo.height);
     canvas.parent('game');
-    GameInfo.sounds.attack.setVolume(0.07);
-    GameInfo.sounds.healing.setVolume(0.07);
-    GameInfo.sounds.special.setVolume(0.07);
-    GameInfo.sounds.mirror.setVolume(0.07);
-    GameInfo.sounds.defense.setVolume(0.07);
-    GameInfo.sounds.selection.setVolume(0.04);
-    GameInfo.sounds.background.setVolume(0.01);
-    GameInfo.sounds.win.setVolume(0.06);
-    GameInfo.sounds.lose.setVolume(0.06);
-    
-    GameInfo.sounds.background.loop();
-
+    // preload  images
+    //GameInfo.sounds.background.loop();
     await  getGameInfo();
     setInterval(refresh,1000);
+
+    //buttons (create a separated function if they are many)
+    
+    //GameInfo.endturnButton = createButton('End Turn');
+    //GameInfo.endturnButton.parent('game');
+    //GameInfo.endturnButton.position(50, GameInfo.height-20);
+    //GameInfo.endturnButton.mousePressed(endturnAction);
+    //GameInfo.endturnButton.addClass('game')
 
     GameInfo.endgameButton = createButton('Leave Match');
     GameInfo.endgameButton.parent('game');
     GameInfo.endgameButton.position(1600, GameInfo.height-50);
     GameInfo.endgameButton.mousePressed(cancel);
     GameInfo.endgameButton.addClass('game')
+
 
     await getDecksInfo();
     await getObjsInfo();
@@ -101,7 +103,6 @@ async function setup() {
 }
 
 function draw() {
-
     background(GameInfo.images.back);
     if (GameInfo.loading) {
         textAlign(CENTER, CENTER);
@@ -118,6 +119,51 @@ function draw() {
         gameOver();
     }    
 }
+
+
+function playWinSound() {
+    GameInfo.sounds.win.play();
+}
+
+
+function playLoseSound() {
+    GameInfo.sounds.lose.play();
+}
+
+function playAttackSound() {
+    GameInfo.sounds.attack.play();
+}
+
+
+function playHealSound() {
+    GameInfo.sounds.healing.play();
+}
+
+function playSpecialSound() {
+    GameInfo.sounds.special.play();
+}
+
+function playMirrorSound() {
+    GameInfo.sounds.mirror.play();
+}
+
+function playDefenseSound() {
+    GameInfo.sounds.defense.play();
+}
+
+function playSelectionSound(){
+    GameInfo.sounds.selection.play();
+}
+
+
+/*if (GameInfo.game.opponents[0].obj.hp <= 0) {
+    playWinSound();
+}
+
+
+if (GameInfo.game.player.obj.hp <= 0) {
+    playLoseSound()
+}*/
 
 async function gameOver() {
     if (GameInfo.game.opponents[0].obj.hp <= 0) {
@@ -152,11 +198,9 @@ async function gameOverShortcutLose() {
 
 function keyPressed() {
     if (keyCode === 17) {
-        GameInfo.sounds.win.play();
         gameOverShortcut();
     }
     if (keyCode === 16) {
-        GameInfo.sounds.lose.play();
         gameOverShortcutLose();
     }
 }
