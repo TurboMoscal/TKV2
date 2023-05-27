@@ -43,10 +43,12 @@ class GameInfo  {
             GameInfo.playerDeck.normal = false;
         }
         if (GameInfo.game.player.obj.hp <= 0 ) {
+            GameInfo.sounds.lose.play();
             GameInfo.gameoverState = true;
         }
 
         if (GameInfo.game.opponents[0].obj.hp <= 0) {
+             GameInfo.sounds.win.play();
             GameInfo.gameoverState = true;
         }
         GameInfo.endgameButton.hide();
