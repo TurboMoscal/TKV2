@@ -46,8 +46,9 @@ insert into class_card (cla_crd_name, cla_crd_effect,cla_crd_note,cla_crd_img,cl
    ("Hospitaller","Select Hospitaller","Become a Hospitaller!","hospCard.png",6),
    ("Husaria","Select Husaria","Become a Hussar!","husCard.png",6);
 
-insert into class (class_name, class_id) 
-values ("NotSelected",0), ("Hospitaller",1), ("Husaria",2); 
+insert into class (class_name, class_id) values
+("Hospitaller",1),
+("Husaria",2);
 
 INSERT INTO user VALUES (1,'me','$2b$10$Wemfac2wY/7RSCdKxuYUL.GV2clfhXC66OL76uCpDFUmpYZ/bGZtW','48MnTVJ6sKIvanVHbP5Vx5rysbYrVN4EbYmk4D8xESdfm1hx8jDfNFZGNw9OZs'),(2,'me2','$2b$10$6j2xIDnnxv.TLfBSstbbO.qE7wFTf5envx/uijiFjCP3slsy7EE4K','dQ7NrsbPsuF81xFGNioR1K0tiYkjtxOhemcgMhuFIS68VrFUC9gggm3JCgzkqe');
 INSERT INTO game VALUES (1,1,2);
