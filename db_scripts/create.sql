@@ -103,9 +103,6 @@ create table class (
     class_id int not null,
     class_name varchar(50));
 
-
-
-
 # Foreign Keys
 
 alter table game add constraint game_fk_match_state

@@ -49,7 +49,7 @@ class Player {
 }
 
 class Game {
-    static maxShipHP = 10;
+    static maxHP = 10;
     constructor(id,turn,state,player,opponents) {
         this.id = id;
         this.turn = turn;

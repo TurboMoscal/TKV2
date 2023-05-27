@@ -160,8 +160,7 @@ class MatchDecks {
             if (chosenClass == 2) {
                 let cards = [];
 
-                let [numCards] = await pool.query('select count(*)  as a from user_game_hus_card where hus_ugc_user_game_id = ?  and hus_ugc_active = ?', [playerId, true]);//////////////////
-                //console.log(numCards[0].a)
+                let [numCards] = await pool.query('select count(*)  as a from user_game_hus_card where hus_ugc_user_game_id = ?  and hus_ugc_active = ?', [playerId, true]);
                 let cardsOnHands = numCards[0].a;
                 let n = Math.min(nCards, maxCards - cardsOnHands);
                 if (cardsOnHands != 0) {
@@ -298,7 +297,6 @@ class MatchDecks {
                             // let oppCard = new Card();
                             //oppCard.active = true;
                             //oppCards.push(oppCard);
-
                         }
                         else {
                             let oppCard = new Card();
@@ -379,13 +377,6 @@ class MatchDecks {
                 let oppObj = game.opponents[0].obj;
 
 
-
-                //specific rule verification
-                // No actions when ship is on defensive maneuvers
-                if (playerObj.state.name == "Defensive") {
-                    return { status: 400, result: { msg: "Player cannot do any other actions while on defensive state" } };
-                }
-
                 if (playerObj.state.name != "Ready") {
                     return { status: 400, result: { msg: "That card cannot be played when another card was already played" } };
                 }
@@ -411,7 +402,7 @@ class MatchDecks {
 
                 let objSql = `update player set pl_state_id = ?, pl_hp = ?, pl_ap = ?
                            where pl_id = ?`;
-                // Updating player ship and opponent ship (same query, different values)
+                // Updating player obj and opponent obj (same query, different values)
                 await pool.query(objSql, [playerObj.state.id, playerObj.hp,
                 playerObj.ap, playerObj.id]);
                 await pool.query(objSql, [oppObj.state.id, oppObj.hp,
@@ -436,13 +427,6 @@ class MatchDecks {
                 let oppObj = game.opponents[0].obj;
 
 
-
-                //specific rule verification
-                // No actions when ship is on defensive maneuvers
-                if (playerObj.state.name == "Defensive") {
-                    return { status: 400, result: { msg: "Player cannot do any other actions while on defensive state" } };
-                }
-
                 if (playerObj.state.name != "Ready") {
                     return { status: 400, result: { msg: "That card cannot be played when another card was already played" } };
                 }
@@ -466,7 +450,7 @@ class MatchDecks {
 
                 let objSql = `update player set pl_state_id = ?, pl_hp = ?, pl_ap = ?
                        where pl_id = ?`;
-                // Updating player ship and opponent ship (same query, different values)
+                // Updating player obj and opponent obj (same query, different values)
                 await pool.query(objSql, [playerObj.state.id, playerObj.hp,
                 playerObj.ap, playerObj.id]);
                 await pool.query(objSql, [oppObj.state.id, oppObj.hp,
@@ -518,7 +502,6 @@ class MatchDecks {
             return { status: 500, result: err };
         }
     }
-
 }
 
 // Auxiliary functions to calculate card actions
@@ -577,38 +560,31 @@ function TrueHospitaller(oppObj, playerObj) {
             oppObj.hp -= 3;
         }
         playerObj.hp += 2;
-        if (playerObj.hp > Settings.maxShipHP) playerObj.hp = Settings.maxShipHP;
-    }
-
-    if (oppObj.state.id == 4) {
+        if (playerObj.hp > Settings.maxHP) playerObj.hp = Settings.maxHP;
+    }else {
         playerObj.hp -= 3;
         oppObj.hp += 2;
-        if (oppObj.hp > Settings.maxShipHP) oppObj.hp = Settings.maxShipHP;
+        if (oppObj.hp > Settings.maxHP) oppObj.hp = Settings.maxHP;
     }
 }
 
 function healFieldDoctor(playerObj, oppObj) {
     if (oppObj.state.id != 4) {
         playerObj.hp += 3;
-
-        if (playerObj.hp > Settings.maxShipHP) playerObj.hp = Settings.maxShipHP;
-    }
-
-
-    if (oppObj.state.id == 4) {
+        if (playerObj.hp > Settings.maxHP) playerObj.hp = Settings.maxHP;
+    }else{
         oppObj.hp += 3;
-        if (oppObj.hp > Settings.maxShipHP) oppObj.hp = Settings.maxShipHP;
+        if (oppObj.hp > Settings.maxHP) oppObj.hp = Settings.maxHP;
     }
 }
 
 function healMorphine(playerObj, oppObj) {
     if (oppObj.state.id != 4) {
         playerObj.hp += 2;
-        if (playerObj.hp > Settings.maxShipHP) playerObj.hp = Settings.maxShipHP;
-    }
-    if (oppObj.state.id == 4) {
+        if (playerObj.hp > Settings.maxHP) playerObj.hp = Settings.maxHP;
+    }else{
         oppObj.hp += 2;
-        if (oppObj.hp > Settings.maxShipHP) oppObj.hp = Settings.maxShipHP;
+        if (oppObj.hp > Settings.maxHP) oppObj.hp = Settings.maxHP;
     }
 }
 
@@ -617,9 +593,7 @@ function mirror(playerObj) {
     if (playerObj.ap >= 10) {
         playerObj.ap -= 10;
         playerObj.state.id = 4;
-        // playerObj.state.name = "Acted";
     } else {
-        //alert("Not enough action points");
         return { status: 404, result: { msg: "Not enough action points" } };
     }
 }
@@ -630,21 +604,11 @@ function defenseHospitaller(playerObj, oppObj) {
         playerObj.ap -= 10;
         oppObj.hp -= 2;
         playerObj.state.id = 5;
-        // playerObj.state.name = "Acted";
     } else {
-        //alert("Not enough action points");
         return { status: 404, result: { msg: "Not enough action points" } };
     }
 
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -692,27 +656,21 @@ function TrueHussar(oppObj, playerObj) {
             oppObj.hp -= 2;
         }
         playerObj.hp += 3;
-        if (playerObj.hp > Settings.maxShipHP) playerObj.hp = Settings.maxShipHP;
-    }
-
-    if (oppObj.state.id == 4) {
+        if (playerObj.hp > Settings.maxHP) playerObj.hp = Settings.maxHP;
+    }else{
         playerObj.hp -= 2;
         oppObj.hp += 3;
-        if (oppObj.hp > Settings.maxShipHP) oppObj.hp = Settings.maxShipHP;
+        if (oppObj.hp > Settings.maxHP) oppObj.hp = Settings.maxHP;
     }
 }
 
 function healMedicinalHerbs(playerObj, oppObj) {
     if (oppObj.state.id != 4) {
         playerObj.hp += 1;
-
-        if (playerObj.hp > Settings.maxShipHP) playerObj.hp = Settings.maxShipHP;
-    }
-
-
-    if (oppObj.state.id == 4) {
+        if (playerObj.hp > Settings.maxHP) playerObj.hp = Settings.maxHP;
+    }else {
         oppObj.hp += 1;
-        if (oppObj.hp > Settings.maxShipHP) oppObj.hp = Settings.maxShipHP;
+        if (oppObj.hp > Settings.maxHP) oppObj.hp = Settings.maxHP;
     }
 }
 
@@ -722,13 +680,10 @@ function healAlcoholWipes(playerObj, oppObj) {
     if (oppObj.state.id != 4) {
         playerObj.hp += 1;
 
-        if (playerObj.hp > Settings.maxShipHP) playerObj.hp = Settings.maxShipHP;
-    }
-
-
-    if (oppObj.state.id == 4) {
+        if (playerObj.hp > Settings.maxHP) playerObj.hp = Settings.maxHP;
+    }else{
         oppObj.hp += 1;
-        if (oppObj.hp > Settings.maxShipHP) oppObj.hp = Settings.maxShipHP;
+        if (oppObj.hp > Settings.maxHP) oppObj.hp = Settings.maxHP;
     }
 }
 
@@ -736,10 +691,9 @@ function defenseHusaria(playerObj) {
     if (playerObj.ap >= 10) {
         playerObj.ap -= 10;
         playerObj.hp += 2;
-        if (playerObj.hp > Settings.maxShipHP) playerObj.hp = Settings.maxShipHP;
+        if (playerObj.hp > Settings.maxHP) playerObj.hp = Settings.maxHP;
         playerObj.state.id = 5;
     } else {
-        //alert("Not enough action points");
         return { status: 404, result: { msg: "Not enough action points" } };
     }
 

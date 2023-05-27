@@ -1,6 +1,3 @@
-//CHANGED
-
-
 const pool = require("../config/database");
 const MatchDecks = require("./decksModel");
 const Settings = require("./gameSettings");
@@ -22,11 +19,7 @@ class Play {
             // Changing the game state to start
             await pool.query(`Update game set gm_state_id=? where gm_id = ?`, [2, game.id]);
 
-            // ---- Specific to this game
-            // Player that starts gets new cards
-
-
-            // generating ships for both players first player gets 2 action points 
+        
             let objSql = `Insert into player (pl_user_game_id,pl_state_id,pl_hp,pl_ap,pl_class_id) values (?,?,?,?,?)`
 
             await pool.query(objSql, [p1Id, 3, Settings.maxShipHP, Settings.apPerTurn, 0]);
@@ -48,17 +41,32 @@ class Play {
         }
     }
 
-    // This considers that only one player plays at each moment, 
-    // so ending my turn starts the other players turn
-    // We consider the following verifications were already made:
-    // - The user is authenticated
-    // - The user has a game running
-    // NOTE: This might be the place to check for victory, but it depends on the game
-
     static async endTurn(game) {
 
         try {
+            // removes the cards of the player that ended and get new cards to the one that will start
+            let [chosingState] = await pool.query(`select pl_state_id from player where pl_user_game_id = ?`, [game.player.id]);
 
+            let num = chosingState[0].pl_state_id;
+            await MatchDecks.resetPlayerDeck(game.player.id);
+        
+            await MatchDecks.genPlayerDeck(game.opponents[0].id, Settings.nCards, Settings.maxCards);
+        
+
+            if (num != 3) { 
+            await pool.query(`update player set pl_state_id = 1, pl_ap =
+            case
+            when pl_ap < 0 then 0
+            when pl_ap >= 20 then 20
+            when pl_ap >= 0 and pl_ap < 19 then pl_ap + ?
+            when pl_ap = 19 then 20
+            end
+            where pl_user_game_id = ?`, [Settings.apPerTurn,game.opponents[0].id]);
+            } else {
+                await pool.query(`update player set pl_state_id = 1, pl_ap = pl_ap + ? where pl_user_game_id = ?`, [0,game.player.id])
+            }
+
+    
             // Change player state to waiting (1)
             await pool.query(`Update user_game set ug_state_id=? where ug_id = ?`,
                 [1, game.player.id]);
@@ -68,37 +76,7 @@ class Play {
             // Increase the number of turns.
             await pool.query(`Update game set gm_turn=gm_turn+1 where gm_id = ?`,
                 [game.id]);
-            // removes the cards of the player that ended and get new cards to the one that will start
-            let [chosingState] = await pool.query(`select pl_state_id from player where pl_user_game_id = ?`, [game.player.id]);
-
-            let num = chosingState[0].pl_state_id;
-            await MatchDecks.resetPlayerDeck(game.player.id);
-          // if (num != 3) {
-            await MatchDecks.genPlayerDeck(game.opponents[0].id, Settings.nCards, Settings.maxCards);
-          // } else {
-               //await MatchDecks.genPlayerClassDeck(game.opponents[0].id);
-         //  }
-            // Give actions points to the player that started and reset the ship state to Ready
-
-            if (num != 3) { 
-            await pool.query(`UPDATE player SET pl_state_id = 1, pl_ap =
-            CASE
-            WHEN pl_ap < 0 THEN 0
-            WHEN pl_ap >= 20 THEN 20
-            WHEN pl_ap >= 0 AND pl_ap < 19 THEN pl_ap + ?
-            WHEN pl_ap = 19 THEN 20
-            END
-            WHERE pl_user_game_id = ?`, [Settings.apPerTurn,game.opponents[0].id]);
-            } else {
-                await pool.query(`update player set pl_state_id = 1, pl_ap = pl_ap + ? where pl_user_game_id = ?`, [0,game.player.id])
-            }
-
-            // Update ship set sh_ap=sh_ap+?, sh_state_id=1 where sh_user_game_id = ?
-
-            if (game.opponents[0].obj && game.opponents[0].obj.hp <= 0) {
-                console.log("O jogo terminou!")
-
-            }
+         
             return { status: 200, result: { msg: "Your turn ended." } };
 
         } catch (err) {
