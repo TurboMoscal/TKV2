@@ -16,6 +16,8 @@ class GameInfo  {
     static sounds = {};
     static fonts = {};
 
+    static finalSoundPlayed = false;
+
     // renderers
     static scoreBoard;
     static playerDeck;
@@ -45,14 +47,17 @@ class GameInfo  {
         if (GameInfo.game.player.obj.hp <= 0 ) {
             GameInfo.gameoverState = true;
            // GameInfo.sounds.win.stop();
+           if (GameInfo.finalSoundPlayed == false){
             playLoseSound();
-            
+            GameInfo.finalSoundPlayed == true;}
         }
 
         if (GameInfo.game.opponents[0].obj.hp <= 0) {
             GameInfo.gameoverState = true;
             //GameInfo.sounds.lose.stop();
+            if (GameInfo.finalSoundPlayed == false) {
             playWinSound();
+            GameInfo.finalSoundPlayed == true;}
         }
         GameInfo.endgameButton.hide();
         if (GameInfo.gameoverState == true) {
