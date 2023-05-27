@@ -21,7 +21,7 @@ async function getDecksInfo() {
         GameInfo.matchDecks = result.decks;
         if (GameInfo.playerDeck) GameInfo.playerDeck.update(GameInfo.matchDecks.mycards);
         else GameInfo.playerDeck = new Deck(
-            GameInfo.matchDecks.mycards, 635, 370, playCard, GameInfo.images.card);////////////////////////////////////
+            GameInfo.matchDecks.mycards, 635, 370, playCard, GameInfo.images.card);
         if (GameInfo.oppDeck) GameInfo.oppDeck.update(GameInfo.matchDecks.oppcards);
         else GameInfo.oppDeck = new Deck(
             GameInfo.matchDecks.oppcards, GameInfo.width - 635 - Deck.nCards * Card.width, 50, null, GameInfo.images.oppcard);
@@ -39,10 +39,10 @@ async function getObjsInfo() {
 
         if (GameInfo.playerObj) GameInfo.playerObj.update(playerObj);
         else GameInfo.playerObj = new Obj("You",
-            playerObj, 20, 705, 570,/*GameInfo.images.obj, GameInfo.images.ripples,*/false);
+            playerObj, 20, 705, 570,false);
         if (GameInfo.oppObj) GameInfo.oppObj.update(oppObj);
         else GameInfo.oppObj = new Obj("Opponent",
-            oppObj, -60, -50, 180,/*GameInfo.images.obj, GameInfo.images.ripples,*/true);
+            oppObj, -60, -50, 180,true);
     }
 }
 
@@ -54,26 +54,26 @@ async function playCard(card) {
     } else {
         let result = await requestPlayCard(card.deckId,card.type);
         if(card.type == 1){
-            playAttackSound();
+            GameInfo.sounds.attack.play();
         }
 
         if(card.type == 2 && GameInfo.game.player.obj.hp < 10){
-            playHealSound();
+            GameInfo.sounds.healing.play();
         }
 
         if(card.type == 3){
-            playSpecialSound();
+            GameInfo.sounds.special.play();
         }
 
         if(card.type == 4){
-            playMirrorSound();
+            GameInfo.sounds.mirror.play();
         } 
         
         if(card.type == 5){
-            playDefenseSound();
+            GameInfo.sounds.defense.play();
         }
         if(card.type == 6){
-            playSelectionSound();
+            GameInfo.sounds.selection.play();
         }
         await getGameInfo();
         await getDecksInfo();

@@ -237,10 +237,10 @@ section a {
 }
 
 #matches {
-  overflow-y:auto;
+  overflow-y:scroll;
   margin-top:350px;
   position:absolute;
-  height:80px;
+  max-height:80px;
   width:384px; 
   margin-right:50px;
 }

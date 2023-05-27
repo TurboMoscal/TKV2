@@ -1,6 +1,4 @@
 //CHANGED
-
-
 class Card {
     static width = 160;
     static height = 260;
@@ -20,8 +18,9 @@ class Card {
         if (normal && this.card.active){
             tint(214, 214, 214);
         }
-        if (mouseX > this.x && mouseX < this.x + Card.width && mouseY > this.y && mouseY < this.y + Card.height && hover && this.card.active && GameInfo.gameoverState == false)
+        if (mouseX > this.x && mouseX < this.x + Card.width && mouseY > this.y && mouseY < this.y + Card.height && hover && this.card.active && GameInfo.gameoverState == false){
             tint(255, 255, 255);
+        }
         if (darker && this.card.active) {
             tint(128, 128, 128);}
         if (this.card.image)     
